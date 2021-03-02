@@ -1,9 +1,27 @@
-console.log("Welcome to Trasor 🔑");
+import prompts from "prompts";
+import { handleGetPassword, handleSetPassword, hastAccess } from "./commands";
+import { printNoAccess, printWelcomeMessage } from "./messages";
+import { askForAction, askForCredentials } from "./questions";
 
-const [command] = process.argv.slice(2);
+const run = async () => {
+  printWelcomeMessage();
 
-if (command === "set") {
-  console.log("You set something");
-} else if (command === "get") {
-  console.log("What should I get?");
-}
+  const credentials = await askForCredentials();
+  if (!hastAccess(credentials.masterPassword)) {
+    printNoAccess();
+    run();
+    return;
+  }
+
+  const action = await askForAction();
+  switch (action.command) {
+    case "set":
+      handleSetPassword(action.passwordName);
+      break;
+    case "get":
+      handleGetPassword(action.passwordName);
+      break;
+  }
+};
+
+run();
