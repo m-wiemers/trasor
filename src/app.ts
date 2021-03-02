@@ -1,34 +1,26 @@
 import prompts from "prompts";
+import { handleGetPassword, handleSetPassword, hastAccess } from "./commands";
+import { printNoAccess, printWelcomeMessage } from "./messages";
+import { askForAction, askForCredentials } from "./questions";
 
 const run = async () => {
-  console.log("Welcome to Trasor 🔑");
+  printWelcomeMessage();
 
-  const answers = await prompts([
-    {
-      type: "number",
-      name: "age",
-      message: "How old are you?",
-      validate: (age) => (age < 18 ? `Nightclub is 18+ only` : true),
-    },
-    {
-      type: "text",
-      name: "location",
-      message: "Where are you from?",
-    },
-    {
-      type: "toggle",
-      name: "isWrite",
-      message: "would you read or write?",
-      initial: true,
-      active: "write",
-      inactive: "read",
-    },
-  ]);
+  const credentials = await askForCredentials();
+  if (!hastAccess(credentials.masterPassword)) {
+    printNoAccess();
+    run();
+    return;
+  }
 
-  if (answers.isWrite == true) {
-    console.log("Ok, how you spell your PW?");
-  } else if (answers.isWrite == !true) {
-    console.log("Here is your PW:");
+  const action = await askForAction();
+  switch (action.command) {
+    case "set":
+      handleSetPassword(action.passwordName);
+      break;
+    case "get":
+      handleGetPassword(action.passwordName);
+      break;
   }
 };
 
