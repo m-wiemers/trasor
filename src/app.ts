@@ -2,8 +2,8 @@ import prompts from "prompts";
 import { handleGetPassword, handleSetPassword, hastAccess } from "./commands";
 import { printNoAccess, printWelcomeMessage } from "./messages";
 import { askForAction, askForCredentials } from "./questions";
-import { Db, MongoClient } from "mongodb";
 import dotenv from "dotenv";
+import { closeDB, connectDB, getCollection } from "./db";
 dotenv.config();
 
 const run = async () => {
@@ -11,21 +11,9 @@ const run = async () => {
   const url = process.env.MONGODB_URL;
 
   try {
-    const client = await MongoClient.connect(url, {
-      useUnifiedTopology: true,
-    });
-    console.log("Connetcted to MongoDB");
-
-    const db = client.db("trasor-marcel");
-
-    await db.collection("inventory").insertOne({
-      item: "T-Shirt",
-      qty: 100,
-      tags: ["cotton"],
-      size: "L",
-    });
-
-    client.close();
+    await connectDB(url, "trasor-marcel");
+    await getCollection("passwords");
+    await closeDB();
   } catch (error) {
     console.error(error);
   }
