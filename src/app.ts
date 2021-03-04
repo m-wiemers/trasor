@@ -8,7 +8,6 @@ import {
   connectDB,
   createPasswordDoc,
   deletePasswordDoc,
-  getCollection,
   updatePasswordDoc,
   updatePasswordValue,
 } from "./db";
