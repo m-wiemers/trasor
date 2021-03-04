@@ -9,6 +9,7 @@ import {
   createPasswordDoc,
   deletePasswordDoc,
   getCollection,
+  updatePasswordDoc,
   updatePasswordValue,
 } from "./db";
 dotenv.config();
@@ -22,8 +23,9 @@ const run = async () => {
     // console.log(
     //   await createPasswordDoc({ name: "wlan", value: "password123" })
     // );
-    // await updatePasswordValue("Marcel", "1234");
-    console.log(await deletePasswordDoc("wlan"));
+    // console.log(await updatePasswordValue("Marcel", "1234"));
+    // console.log(await updatePasswordDoc("Marcel", { name: "wland" }));
+    // console.log(await deletePasswordDoc("wlan"));
     await closeDB();
   } catch (error) {
     console.error(error);
