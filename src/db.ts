@@ -21,9 +21,12 @@ export async function closeDB() {
   client.close();
 }
 
-export async function createPasswordDoc(passwordDoc: PasswordDoc) {
+export async function createPasswordDoc(
+  passwordDoc: PasswordDoc
+): Promise<Boolean> {
   const passwordCollection = await getCollection<PasswordDoc>("passwords");
-  return await passwordCollection.insertOne(passwordDoc);
+  const createResault = await passwordCollection.insertOne(passwordDoc);
+  return createResault.insertedCount >= 1;
 }
 
 export async function readPasswordDoc(passwordName: string) {
@@ -31,21 +34,23 @@ export async function readPasswordDoc(passwordName: string) {
   return await passwordCollection.findOne({ name: passwordName });
 }
 
-export async function updatePasswordDoc(
+export async function updatePasswordValue(
   passwordName: string,
-  passwordDoc: PasswordDoc
+  newPasswordValue: string
 ) {
   const passwordCollection = await getCollection<PasswordDoc>("passwords");
   return await passwordCollection.updateOne(
     { name: passwordName },
-    { $set: passwordDoc }
+    { $set: { value: newPasswordValue } }
   );
 }
 
 export async function deletePasswordDoc(
-  passwordName: string,
-  passwordDoc: PasswordDoc
-) {
+  passwordName: string
+): Promise<Boolean> {
   const passwordCollection = await getCollection<PasswordDoc>("passwords");
-  return await passwordCollection.deleteOne({ name: passwordName });
+  const deleteResault = await passwordCollection.deleteOne({
+    name: passwordName,
+  });
+  return deleteResault.deletedCount >= 1;
 }

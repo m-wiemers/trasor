@@ -9,7 +9,7 @@ import {
   createPasswordDoc,
   deletePasswordDoc,
   getCollection,
-  updatePasswordDoc,
+  updatePasswordValue,
 } from "./db";
 dotenv.config();
 
@@ -19,9 +19,11 @@ const run = async () => {
 
   try {
     await connectDB(url, "trasor-marcel");
-    await createPasswordDoc({ name: "Marcel", value: "password123" });
-    // await updatePasswordDoc("Marcel", { name: "Marcel", value: "password321" });
-    // await deletePasswordDoc("Marcel");
+    // console.log(
+    //   await createPasswordDoc({ name: "wlan", value: "password123" })
+    // );
+    // await updatePasswordValue("Marcel", "1234");
+    console.log(await deletePasswordDoc("wlan"));
     await closeDB();
   } catch (error) {
     console.error(error);
