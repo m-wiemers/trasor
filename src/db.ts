@@ -33,9 +33,12 @@ export async function createPasswordDoc(passwordDoc: PasswordDoc) {
 
 export async function readPasswordDoc(
   passwordName: string
-): Promise<PasswordDoc> {
+): Promise<PasswordDoc | null> {
   const passwordCollection = await getCollection<PasswordDoc>("passwords");
   const passwordDoc = await passwordCollection.findOne({ name: passwordName });
+  if (!passwordDoc) {
+    return null;
+  }
   return { name: passwordDoc.name, value: decryptPassword(passwordDoc.value) };
 }
 
