@@ -8,7 +8,6 @@ export const handleSetPassword = async (
   passwordName: string
 ): Promise<void> => {
   const passwordValue = await AskForPasswordValue();
-  const newPassword = await setNewPassword(passwordValue);
 
   printPasswordSet(passwordName);
 };
