@@ -46,7 +46,7 @@ export const AskForPasswordValue = async (): Promise<string> => {
   const response = await prompts({
     type: "password",
     name: "passwordValue",
-    message: "What is the new password",
+    message: "What is the new password?",
   });
   return response.passwordValue;
 };
