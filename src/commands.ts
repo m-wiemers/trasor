@@ -14,23 +14,15 @@ export const hastAccess = (masterPassword: string): boolean =>
 export const handleSetPassword = async (
   passwordName: string
 ): Promise<void> => {
+  const passwordValue = await AskForPasswordValue();
   const passwordDoc = await readPasswordDoc(passwordName);
-  if (!passwordDoc) {
-    const passwordValue = await AskForPasswordValue();
-    const newPasswordDoc = {
-      name: passwordName,
-      value: passwordValue,
-    };
-    await createPasswordDoc(newPasswordDoc);
-    printPasswordSet(passwordName);
-  } else if (passwordDoc && passwordName === passwordDoc.name) {
-    console.log(
-      `password allready exists. Please set your new password for ${passwordName}`
-    );
-    const newPasswordValue = await AskForPasswordValue();
-    await updatePasswordValue(passwordName, newPasswordValue);
-    printPasswordSet(passwordDoc.name);
+  if (passwordDoc) {
+    console.log("Password already present. Changing existing value!");
+    await updatePasswordValue(passwordName, passwordValue);
+  } else {
+    await createPasswordDoc({ name: passwordName, value: passwordValue });
   }
+  printPasswordSet(passwordName);
 };
 
 export const handleGetPassword = async (
