@@ -1,12 +1,6 @@
 import { printPassword, printPasswordSet } from "./messages";
-import { askForAction, AskForPasswordValue } from "./questions";
-import {
-  createPasswordDoc,
-  getCollection,
-  PasswordDoc,
-  readPasswordDoc,
-  updatePasswordValue,
-} from "./db";
+import { AskForPasswordValue } from "./questions";
+import { createPasswordDoc, readPasswordDoc, updatePasswordValue } from "./db";
 
 export const hastAccess = (masterPassword: string): boolean =>
   masterPassword === "password123";
