@@ -1,0 +1,24 @@
+### GET a password by name
+GET http://localhost:3333/api/passwords/Git
+
+### GET a unknown password by name
+
+GET http://localhost:3333/api/passwords
+
+### GET an unknown resource
+GET http://localhost:3333/api/users
+
+### POST a new password
+
+POST http://localhost:3333/api/passwords
+Content-Type: application/json
+
+
+{
+    "name": "Git",
+    "value": "super-secret-password!!121"
+}
+
+
+### DELETE a resource
+DELETE http://localhost:3333/api/passwords/Wii

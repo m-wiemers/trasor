@@ -1,4 +1,3 @@
-import prompts from "prompts";
 import { handleGetPassword, handleSetPassword, hastAccess } from "./commands";
 import { printNoAccess, printWelcomeMessage } from "./messages";
 import { askForAction, askForCredentials } from "./questions";
