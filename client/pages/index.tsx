@@ -1,8 +1,22 @@
 import { useState } from "react";
+import styled from "styled-components";
+import SafeInput from "../components/SafeInput";
+
+const SubmitButton = styled.button`
+  color: red;
+`;
+
+const Container = styled.div`
+  display: grid;
+  width: 100vw;
+  padding: 2em;
+  place-items: center;
+`;
 
 export default function Home() {
   const [passwordName, setPasswordName] = useState("");
   const [passwordDoc, setPasswordDoc] = useState(null);
+  const [secret, setSecret] = useState("");
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -14,13 +28,13 @@ export default function Home() {
   }
 
   return (
-    <>
+    <Container>
       <form onSubmit={(e) => handleSubmit(e)}>
         <input
           value={passwordName}
           onChange={(event) => setPasswordName(event.target.value)}
         />
-        <button type="submit">send</button>
+        <SubmitButton type="submit">send</SubmitButton>
         <p></p>
       </form>
       {passwordDoc && (
@@ -28,6 +42,11 @@ export default function Home() {
           {passwordDoc.name} {passwordDoc.value}
         </>
       )}
-    </>
+      <SafeInput
+        value={secret}
+        onChange={(event) => setSecret(event.target.value)}
+        type="password"
+      />
+    </Container>
   );
 }
